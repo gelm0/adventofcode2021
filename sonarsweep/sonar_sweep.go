@@ -1,7 +1,5 @@
 package sonarsweep
 
-import "fmt"
-
 func sum(slice []int) int {
 	sum := 0
 	for _, val := range slice {
@@ -32,10 +30,6 @@ func StatSonarSweep(measurements []int) int {
 		}
 		window1 := sum(measurements[i : i+3])
 		window2 := sum(measurements[i+1 : i+4])
-		fmt.Println(window1)
-		fmt.Println(window2)
-		fmt.Println(counter)
-		fmt.Println("---")
 		if window2-window1 > 0 {
 			counter += 1
 		}
