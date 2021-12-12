@@ -4,9 +4,11 @@ import (
 	"adventofcode/binarydiagnostic"
 	"adventofcode/bingo"
 	"adventofcode/dive"
+	"adventofcode/hydrothermal"
 	"adventofcode/sonarsweep"
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -140,9 +142,20 @@ func dayFour() {
 	fmt.Printf("Day 4 result B: %d\n", task2)
 }
 
+func dayFive() {
+	file := getInputData("hydrothermal/input.txt")
+	task1 := hydtrothermal.HorizontalVerticalVents(file)
+	// Reset file pointer
+	file.Seek(0, io.SeekStart)
+	task2 := hydtrothermal.HorizontalVerticalDiagonalVents(file)
+	fmt.Printf("Day 5 result A: %d\n", task1)
+	fmt.Printf("Day 5 result B %d\n", task2)
+}
+
 func main() {
 	//dayOne()
 	//dayTwo()
 	//dayThree()
-	dayFour()
+	//dayFour()
+	//dayFive()
 }
