@@ -7,6 +7,7 @@ import (
 	"adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
 	"adventofcode/sonarsweep"
+	"adventofcode/whaletreachery"
 	"bufio"
 	"fmt"
 	"io"
@@ -170,8 +171,28 @@ func daySix() {
 	}
 	task1 := lanternfish.GetNumberOfFish(initialFish, 80)
 	task2 := lanternfish.GetNumberOfFish(initialFish, 256)
-	fmt.Printf("Day 5 result A: %d\n", task1)
-	fmt.Printf("Day 5 result B %d\n", task2)
+	fmt.Printf("Day 6 result A: %d\n", task1)
+	fmt.Printf("Day 6 result B %d\n", task2)
+}
+
+func daySeven() {
+	file := getInputData("whaletreachery/input.txt")
+	scanner := bufio.NewScanner(file)
+	scanner.Scan()
+	crabStrList := strings.Split(scanner.Text(), ",")
+	var crabPositions []int
+	for _, s := range crabStrList {
+		intVal, err := strconv.Atoi(s)
+		if err != nil {
+			panicStr := fmt.Sprintf("Failed to convert crabstr to crabint: %s", s)
+			panic(panicStr)
+		}
+		crabPositions = append(crabPositions, intVal)
+	}
+	task1 := whaletreachery.CrabDance(crabPositions)
+	task2 := whaletreachery.AdvancedCrabDancing(crabPositions)
+	fmt.Printf("Day 7 result A: %d\n", task1)
+	fmt.Printf("Day 7 result B %d\n", task2)
 }
 
 func main() {
@@ -180,5 +201,6 @@ func main() {
 	//dayThree()
 	//dayFour()
 	//dayFive()
-	daySix()
+	//daySix()
+	daySeven()
 }
