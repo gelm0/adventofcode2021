@@ -76,14 +76,6 @@ func searchMinDistanceRight(crabPositions []int, mean, max int, extraFuelStep bo
 	return previousDistance
 }
 
-// This is basically just a guessing algorithm with pretty bad complexity
-// It works to solve this problem but I can't gurantee it's correctness
-// It works by taking the average number and then looking which side of that number
-// contains the most amount of numbers.
-// It then performs a search over those numbers basically making it O(N/2) instead of O(N)
-// Probably some O(logn) solution prob divide and conq would make better fit here
-// Note: You can guarantee correctness by commenting out the if else case in the end
-// and compare both values to each other
 
 func startCrabDance(crabPositions []int, extraFuelStep bool) int {
 	min, max := findMinMax(crabPositions)
