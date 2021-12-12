@@ -5,6 +5,7 @@ import (
 	"adventofcode/bingo"
 	"adventofcode/dive"
 	"adventofcode/hydrothermal"
+	"adventofcode/lanternfish"
 	"adventofcode/sonarsweep"
 	"bufio"
 	"fmt"
@@ -152,10 +153,32 @@ func dayFive() {
 	fmt.Printf("Day 5 result B %d\n", task2)
 }
 
+func daySix() {
+	file := getInputData("lanternfish/input.txt")
+	scanner := bufio.NewScanner(file)
+	scanner.Scan()
+	strFishList := strings.Split(scanner.Text(), ",")
+	initialFish := make([]int, 9)
+	for _, s := range strFishList {
+		intVal, err := strconv.Atoi(s)
+		if err != nil {
+			// Worlds most descriptive error, fish the shell or just fish?
+			panicStr := fmt.Sprintf("Failed to convert fishstr to fishint: %s", s)
+			panic(panicStr)
+		}
+		initialFish[intVal] += 1
+	}
+	task1 := lanternfish.GetNumberOfFish(initialFish, 80)
+	task2 := lanternfish.GetNumberOfFish(initialFish, 256)
+	fmt.Printf("Day 5 result A: %d\n", task1)
+	fmt.Printf("Day 5 result B %d\n", task2)
+}
+
 func main() {
 	//dayOne()
 	//dayTwo()
 	//dayThree()
 	//dayFour()
 	//dayFive()
+	daySix()
 }
