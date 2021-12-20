@@ -8,7 +8,7 @@ func ScoreSyntax(line string) (int, []rune) {
 			stack = append(stack, val)
 		} else {
 			if len(stack) == 0 {
-				panic("Error, should not happend")
+				return 0, nil
 			}
 			current := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
