@@ -4,16 +4,18 @@ import (
 	"adventofcode/binarydiagnostic"
 	"adventofcode/bingo"
 	"adventofcode/dive"
-	hydtrothermal "adventofcode/hydrothermal"
+	"adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
 	"adventofcode/smokebasin"
 	"adventofcode/sonarsweep"
 	"adventofcode/sss"
+	"adventofcode/syntaxscoring"
 	"adventofcode/whaletreachery"
 	"bufio"
 	"fmt"
 	"io"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -245,6 +247,30 @@ func dayNine() {
 	fmt.Printf("Day 9 result B: %d\n", task2)
 }
 
+func dayTen() {
+	file := getInputData("syntaxscoring/input.txt")
+	scanner := bufio.NewScanner(file)
+	task1 := 0
+	var autoCompletedScore []int
+	for scanner.Scan() {
+		score, toComplete := syntaxscoring.ScoreSyntax(scanner.Text())
+		task1 += score
+		if toComplete != nil {
+			autoCmpScore := syntaxscoring.ScoreAutoComplete(toComplete)
+			autoCompletedScore = append(autoCompletedScore, autoCmpScore)
+		}
+	}
+	sort.Ints(autoCompletedScore)
+	middleScore := len(autoCompletedScore) / 2
+	task2 := autoCompletedScore[middleScore]
+	fmt.Printf("Day 10 result A: %d\n", task1)
+	fmt.Printf("Day 10 result B: %d\n", task2)
+}
+
+func dayEleven() {
+
+}
+
 func main() {
 	// Write a commandline interpreter or use cobra
 	//dayOne()
@@ -255,5 +281,6 @@ func main() {
 	//daySix()
 	//daySeven()
 	//dayEight()
-	dayNine()
+	//dayNine()
+	dayTen()
 }
