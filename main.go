@@ -4,9 +4,11 @@ import (
 	"adventofcode/binarydiagnostic"
 	"adventofcode/bingo"
 	"adventofcode/dive"
-	"adventofcode/hydrothermal"
+	hydtrothermal "adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
+	"adventofcode/smokebasin"
 	"adventofcode/sonarsweep"
+	"adventofcode/sss"
 	"adventofcode/whaletreachery"
 	"bufio"
 	"fmt"
@@ -195,12 +197,63 @@ func daySeven() {
 	fmt.Printf("Day 7 result B %d\n", task2)
 }
 
+func dayEight() {
+	file := getInputData("sss/input.txt")
+	scanner := bufio.NewScanner(file)
+	var input, output, totalOutput []string
+	task2 := 0
+	for scanner.Scan() {
+		values := strings.Split(scanner.Text(), " ")
+		switchToOutput := false
+		for _, s := range values {
+			if s == "|" {
+				switchToOutput = true
+				continue
+			}
+			s = sss.SortString(s)
+			if !switchToOutput {
+				input = append(input, s)
+			} else {
+				output = append(output, s)
+			}
+		}
+		task2 += sss.DecodeInput(input, output)
+		input = []string{}
+		totalOutput = append(totalOutput, output...)
+		output = []string{}
+	}
+	task1 := sss.UniqueOutput(totalOutput)
+	fmt.Printf("Day 8 result A: %d\n", task1)
+	fmt.Printf("Day 8 result B: %d\n", task2)
+}
+
+func dayNine() {
+	file := getInputData("smokebasin/input.txt")
+	scanner := bufio.NewScanner(file)
+	height := 0
+	var points []int
+	for scanner.Scan() {
+		height += 1
+		for _, s := range scanner.Text() {
+			i := int(s - '0')
+			points = append(points, i)
+		}
+	}
+	task1 := smokebasin.FindMinimaRisk(points, height)
+	task2 := smokebasin.FindBasins(points, height)
+	fmt.Printf("Day 9 result A: %d\n", task1)
+	fmt.Printf("Day 9 result B: %d\n", task2)
+}
+
 func main() {
+	// Write a commandline interpreter or use cobra
 	//dayOne()
 	//dayTwo()
 	//dayThree()
 	//dayFour()
 	//dayFive()
 	//daySix()
-	daySeven()
+	//daySeven()
+	//dayEight()
+	dayNine()
 }
