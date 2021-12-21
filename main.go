@@ -4,6 +4,7 @@ import (
 	"adventofcode/binarydiagnostic"
 	"adventofcode/bingo"
 	"adventofcode/dive"
+	"adventofcode/dumbooctopus"
 	"adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
 	"adventofcode/smokebasin"
@@ -268,6 +269,26 @@ func dayTen() {
 }
 
 func dayEleven() {
+	file := getInputData("dumbooctopus/input.txt")
+	scanner := bufio.NewScanner(file)
+	var points []int
+	height := 0
+	for scanner.Scan() {
+		height += 1
+		text := scanner.Text()
+		for _, r := range text {
+			i := int(r - '0')
+			points = append(points, i)
+		}
+	}
+	nodes := dumbooctopus.InitializeNodes(points, height)
+	task1 := dumbooctopus.Step(100, nodes)
+	task2 := dumbooctopus.FindFirstSynchronized(nodes)
+	fmt.Printf("Day 11 result A: %d\n", task1)
+	fmt.Printf("Day 11 result B: %d\n", task2+100)
+}
+
+func dayTwelve() {
 
 }
 
@@ -282,5 +303,7 @@ func main() {
 	//daySeven()
 	//dayEight()
 	//dayNine()
-	dayTen()
+	//dayTen()
+	dayEleven()
+	//dayTwelve()
 }

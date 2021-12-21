@@ -35,23 +35,9 @@ func findMinimas(points []int, height int) (risk int, coordinates []int) {
 				edgeMinima = checkEdges(val, points[i-1], points[i+length], points[i+1])
 			}
 		} else if col == 0 {
-			if row == 0 {
-				edgeMinima = checkEdges(val, points[i+1], points[i+length])
-			} else if col == length-1 {
-				edgeMinima = checkEdges(val, points[i-1], points[i-length])
-			} else {
-				edgeMinima = checkEdges(val, points[i+length], points[i+1], points[i-length])
-			}
-
+			edgeMinima = checkEdges(val, points[i+length], points[i+1], points[i-length])
 		} else if col == length-1 {
-			if row == 0 {
-				edgeMinima = checkEdges(val, points[i-1], points[i+length])
-			} else if row == height-1 {
-				edgeMinima = checkEdges(val, points[i-1], points[i-length])
-			} else {
-				edgeMinima = checkEdges(val, points[i-1], points[i+length], points[i-length])
-
-			}
+			edgeMinima = checkEdges(val, points[i-1], points[i+length], points[i-length])
 		} else {
 			edgeMinima = checkEdges(val, points[i-1], points[i+length], points[i-length], points[i+1])
 		}
