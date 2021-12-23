@@ -7,6 +7,7 @@ import (
 	"adventofcode/dumbooctopus"
 	"adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
+	"adventofcode/passagepathing"
 	"adventofcode/smokebasin"
 	"adventofcode/sonarsweep"
 	"adventofcode/sss"
@@ -151,6 +152,7 @@ func dayFour() {
 
 func dayFive() {
 	file := getInputData("hydrothermal/input.txt")
+	defer file.Close()
 	task1 := hydtrothermal.HorizontalVerticalVents(file)
 	// Reset file pointer
 	file.Seek(0, io.SeekStart)
@@ -162,6 +164,7 @@ func dayFive() {
 func daySix() {
 	file := getInputData("lanternfish/input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
 	scanner.Scan()
 	strFishList := strings.Split(scanner.Text(), ",")
 	initialFish := make([]int, 9)
@@ -183,6 +186,7 @@ func daySix() {
 func daySeven() {
 	file := getInputData("whaletreachery/input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
 	scanner.Scan()
 	crabStrList := strings.Split(scanner.Text(), ",")
 	var crabPositions []int
@@ -203,6 +207,7 @@ func daySeven() {
 func dayEight() {
 	file := getInputData("sss/input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
 	var input, output, totalOutput []string
 	task2 := 0
 	for scanner.Scan() {
@@ -233,6 +238,7 @@ func dayEight() {
 func dayNine() {
 	file := getInputData("smokebasin/input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
 	height := 0
 	var points []int
 	for scanner.Scan() {
@@ -251,6 +257,7 @@ func dayNine() {
 func dayTen() {
 	file := getInputData("syntaxscoring/input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
 	task1 := 0
 	var autoCompletedScore []int
 	for scanner.Scan() {
@@ -271,6 +278,7 @@ func dayTen() {
 func dayEleven() {
 	file := getInputData("dumbooctopus/input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
 	var points []int
 	height := 0
 	for scanner.Scan() {
@@ -289,7 +297,27 @@ func dayEleven() {
 }
 
 func dayTwelve() {
+	file := getInputData("passagepathing/input.txt")
+	scanner := bufio.NewScanner(file)
+	defer file.Close()
+	var nodes []string
+	graph := passagepathing.NewGraph()
+	for scanner.Scan() {
+		nodes = strings.Split(scanner.Text(), "-")
+		graph.AddNode(nodes[0])
+		graph.AddNode(nodes[1])
+		graph.AddEdge(nodes[0], nodes[1])
+		graph.AddEdge(nodes[1], nodes[0])
+	}
+	smallCaveCounter := make(map[string]int)
 
+	paths := []string{}
+	task1 := 0
+	task2 := 0
+	graph.PathsWithOneSmallCave("start", "end", &task1)
+	graph.PathsWithTwoSmallCaves("start", "end", paths, smallCaveCounter, &task2)
+	fmt.Printf("Day 12 result A: %d\n", task1)
+	fmt.Printf("Day 12 result B: %d\n", task2)
 }
 
 func main() {
@@ -304,6 +332,6 @@ func main() {
 	//dayEight()
 	//dayNine()
 	//dayTen()
-	dayEleven()
-	//dayTwelve()
+	//dayEleven()
+	dayTwelve()
 }
