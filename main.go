@@ -5,13 +5,14 @@ import (
 	"adventofcode/bingo"
 	"adventofcode/dive"
 	"adventofcode/dumbooctopus"
-	"adventofcode/hydrothermal"
+	hydtrothermal "adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
 	"adventofcode/passagepathing"
 	"adventofcode/smokebasin"
 	"adventofcode/sonarsweep"
 	"adventofcode/sss"
 	"adventofcode/syntaxscoring"
+	"adventofcode/transparentorigami"
 	"adventofcode/whaletreachery"
 	"bufio"
 	"fmt"
@@ -320,6 +321,73 @@ func dayTwelve() {
 	fmt.Printf("Day 12 result B: %d\n", task2)
 }
 
+func dayThirteen() {
+	file := getInputData("transparentorigami/input.txt")
+	scanner := bufio.NewScanner(file)
+	defer file.Close()
+	parseFolds := false
+	var points []int
+	foldRune := []rune{}
+	foldPos := []int{}
+	var maxX, maxY int
+	for scanner.Scan() {
+		text := scanner.Text()
+		if text == "" {
+			parseFolds = true
+		}
+		// Parse points
+		if !parseFolds {
+			xy := strings.Split(text, ",")
+			x, err := strconv.Atoi(xy[0])
+			if err != nil {
+				panic("Failed to convert x")
+			}
+			y, err := strconv.Atoi(xy[1])
+			if err != nil {
+				panic("Failed to convert y")
+			}
+			if x > maxX {
+				maxX = x
+			}
+			if y > maxY {
+				maxY = y
+			}
+			points = append(points, x)
+			points = append(points, y)
+			// Parse folds instead
+		} else {
+			var r rune
+			var d int
+			fmt.Sscanf(text, "fold along %c=%d", &r, &d)
+			foldRune = append(foldRune, r)
+			foldPos = append(foldPos, d)
+		}
+	}
+	foldPos = foldPos[1:]
+	foldRune = foldRune[1:]
+
+	// Coordinate system ranges from 0 so we have to add 1 to correct
+	maxX += 1
+	maxY += 1
+	firstFold := true
+	paper := transparentorigami.MakePaper(maxX, maxY)
+	transparentorigami.FillPaper(points, paper)
+	for i := 0; i < len(foldPos); i++ {
+
+		if foldRune[i] == 'x' {
+			paper = transparentorigami.FoldX(paper, foldPos[i])
+		} else {
+			paper = transparentorigami.FoldY(paper, foldPos[i])
+		}
+		if firstFold {
+			task1 := transparentorigami.CountPoints(paper)
+			fmt.Printf("Day 13 result A: %d\n", task1)
+			firstFold = false
+		}
+	}
+	transparentorigami.PrintPaper(paper)
+}
+
 func main() {
 	// Write a commandline interpreter or use cobra
 	//dayOne()
@@ -333,5 +401,6 @@ func main() {
 	//dayNine()
 	//dayTen()
 	//dayEleven()
-	dayTwelve()
+	//dayTwelve()
+	dayThirteen()
 }
