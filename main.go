@@ -5,7 +5,8 @@ import (
 	"adventofcode/bingo"
 	"adventofcode/dive"
 	"adventofcode/dumbooctopus"
-	hydtrothermal "adventofcode/hydrothermal"
+	"adventofcode/extendedpoly"
+	"adventofcode/hydrothermal"
 	"adventofcode/lanternfish"
 	"adventofcode/passagepathing"
 	"adventofcode/smokebasin"
@@ -388,6 +389,39 @@ func dayThirteen() {
 	transparentorigami.PrintPaper(paper)
 }
 
+func dayFourteen() {
+	file := getInputData("extendedpoly/input.txt")
+	scanner := bufio.NewScanner(file)
+	defer file.Close()
+	readLines := 0
+	polyChain := make(map[string]int)
+	polyConv := make(map[string]string)
+	// We need this for our calulations later
+	lastValue := ""
+	for scanner.Scan() {
+		text := scanner.Text()
+		if readLines == 0 {
+			for i := 0; i < len(text)-1; i++ {
+				polyTemp := string(text[i]) + string(text[i+1])
+				polyChain[polyTemp] += 1
+				lastValue = string(text[i+1])
+			}
+		} else if readLines > 1 {
+			var key string
+			var val string
+			fmt.Sscanf(text, "%s -> %s", &key, &val)
+			polyConv[key] = val
+		}
+		readLines += 1
+	}
+	task1Chain := extendedpoly.Step(10, polyChain, polyConv)
+	task1 := extendedpoly.CountOcurrence(task1Chain, lastValue)
+	task2Chain := extendedpoly.Step(40, polyChain, polyConv)
+	task2 := extendedpoly.CountOcurrence(task2Chain, lastValue)
+	fmt.Printf("Day 14 result A: %d\n", task1)
+	fmt.Printf("Day 14 result B: %d\n", task2)
+}
+
 func main() {
 	// Write a commandline interpreter or use cobra
 	//dayOne()
@@ -402,5 +436,6 @@ func main() {
 	//dayTen()
 	//dayEleven()
 	//dayTwelve()
-	dayThirteen()
+	//dayThirteen()
+	dayFourteen()
 }
